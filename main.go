@@ -4,16 +4,13 @@ import (
 	"encoding/gob"
 	"log"
 	"net/http"
+	"oidcutil/internal/endpoint/client"
+	"oidcutil/internal/types"
 
 	"github.com/gin-gonic/gin"
 )
 
-type Callback struct {
-	state string
-	code  string
-}
-
-var callbackChan = make(chan Callback, 1)
+var callbackChan = make(chan types.Callback, 1)
 
 func main() {
 	rtr := router()
@@ -26,20 +23,13 @@ func main() {
 func router() *gin.Engine {
 	router := gin.Default()
 	gob.Register(map[string]interface{}{})
-	router.GET("/sso/login", loginCallback())
-	router.GET("/callback", fetchCallback())
+	router.GET("/callback", client.FetchCallback(callbackChan))
+	router.GET("/sso/login", client.IdpCallback(callbackChan))
 	return router
 }
 
 func loginCallback() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		println("callback", ctx.Query("state"), ctx.Query("code"))
-	}
-}
-
-func fetchCallback() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		callback := <-callbackChan
-		ctx.JSON(http.StatusOK, callback)
 	}
 }
