@@ -3,7 +3,7 @@ package client
 import (
 	"net/http"
 
-	"oidcutil/internal/types"
+	"ssorry/internal/types"
 
 	"github.com/gin-gonic/gin"
 )

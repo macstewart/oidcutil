@@ -1,7 +1,7 @@
 package client
 
 import (
-	"oidcutil/internal/types"
+	"ssorry/internal/types"
 
 	"github.com/gin-gonic/gin"
 )
