@@ -3,7 +3,9 @@ module ssorry
 go 1.19
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.9.1
+	github.com/go-resty/resty/v2 v2.7.0
 	github.com/spf13/cobra v1.7.0
 	github.com/zitadel/oidc v1.13.4
 )

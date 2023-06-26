@@ -1,0 +1,19 @@
+<h2>SSOrry</h2>
+
+<p>Confirm the values to use for your SSO user</p>
+<form action="/user" method="POST">
+  <div>
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email", value={{ .email }}>
+  </div>
+  <div>
+    <label for="key">Claim key</label>
+    <input type="text" name="key" id="key", value={{ .key }}>
+  </div>
+  <div>
+    <label for="values">Claim values</label>
+    <input type="text" name="values" id="values", value={{ .values }}>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+  <button type="reset" class="btn btn-primary">Reset</button>
+</form>
