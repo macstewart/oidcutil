@@ -14,8 +14,8 @@ func Authorize() gin.HandlerFunc {
 		log.Printf("origin %s", ctx.Request.Header.Get("Origin"))
 		params := parseParams(ctx)
 		store.SaveAuth(params)
-		user := store.LoadUser()
-		ctx.HTML(http.StatusOK, "auth.tmpl", gin.H{"email": user.Email, "key": user.Key, "values": user.ValueJoin()})
+		user := store.DefaultUser()
+		ctx.HTML(http.StatusOK, "auth.tmpl", gin.H{"state": params.State, "email": user.Email, "key": user.Key, "values": user.ValueJoin()})
 	}
 }
 

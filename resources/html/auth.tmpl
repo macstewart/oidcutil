@@ -1,7 +1,7 @@
 <h2>SSOrry</h2>
 
 <p>Confirm the values to use for your SSO user</p>
-<form action="/user" method="POST">
+<form action="/user?state={{ .state }}" method="POST">
   <div>
     <label for="email">Email</label>
     <input type="text" name="email" id="email", value={{ .email }}>

@@ -15,9 +15,15 @@ import (
 func UpdateUser() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		user := parseUser(ctx)
-		store.SaveUser(user)
+		state := ctx.Query("state")
+		log.Printf("ctx query params %v", state)
+		if state == "" {
+			state = "default"
+		}
+		store.SaveUser(util.BuildCode(state), user)
 		uri := util.BuildRedirect(store.LoadAuth())
-		ctx.Redirect(http.StatusTemporaryRedirect, uri)
+		log.Printf("redir %s", uri)
+		ctx.Redirect(http.StatusFound, uri)
 	}
 }
 
