@@ -1,8 +1,10 @@
 package cmd
 
 import (
+	"embed"
 	"encoding/gob"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"ssorry/internal/http/client"
@@ -10,11 +12,12 @@ import (
 	"ssorry/internal/store"
 	"ssorry/internal/util"
 	"strings"
-	"text/template"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
 )
+
+var resources embed.FS
 
 var (
 	serverCmd     = &cobra.Command{Use: "server", Run: start}
@@ -23,6 +26,10 @@ var (
 	local         *bool
 	tokenCallback = make(chan string)
 )
+
+func StoreResources(embedded embed.FS) {
+	resources = embedded
+}
 
 func init() {
 	port = serverCmd.Flags().IntP("port", "p", 3333, "Port to run the server on")
@@ -42,7 +49,8 @@ func start(cmd *cobra.Command, args []string) {
 
 func router() *gin.Engine {
 	router := gin.Default()
-	router.LoadHTMLGlob("resources/html/*")
+	templ := template.Must(template.New("").ParseFS(resources, "resources/html/*.tmpl"))
+	router.SetHTMLTemplate(templ)
 	gob.Register(map[string]interface{}{})
 	router.SetFuncMap(template.FuncMap{
 		"StringsJoin": strings.Join,
