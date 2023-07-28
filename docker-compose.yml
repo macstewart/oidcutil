@@ -1,0 +1,9 @@
+version: "3"
+services:
+  ssorry:
+    container_name: ssorry
+    restart: unless-stopped
+    image: ssorry
+    build: .
+    ports:
+      - 3333:3333
