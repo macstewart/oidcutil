@@ -21,3 +21,10 @@ func FetchTokenCallback(cb chan string) gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, token)
 	}
 }
+
+func FetchSessionCallback(cb chan string) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		session := <-cb
+		ctx.JSON(http.StatusOK, session)
+	}
+}

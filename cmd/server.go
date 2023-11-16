@@ -17,16 +17,18 @@ import (
 )
 
 var (
-	serverCmd     = &cobra.Command{Use: "server", Run: start}
-	port          *int
-	hostname      string
-	tokenCallback = make(chan string)
+	serverCmd       = &cobra.Command{Use: "server", Run: start}
+	port            *int
+	hostname        string
+	tokenCallback   = make(chan string)
+	sessionCallback = make(chan string)
 )
 
 func init() {
 	port = serverCmd.Flags().IntP("port", "p", 3333, "Port to run the server on")
 	rootCmd.AddCommand(serverCmd)
-	store.SetCallback(tokenCallback)
+	store.SetTokenCallback(tokenCallback)
+	store.SetSessionCallback(sessionCallback)
 }
 
 func start(cmd *cobra.Command, args []string) {
@@ -51,7 +53,9 @@ func router() *gin.Engine {
 	router.GET("/authorize", idp.Authorize())
 	router.GET("/keys", idp.HandleJwks())
 	router.POST("/sso/login", client.Login())
+	router.POST("/sso/loginv2", client.LoginSession())
 	router.GET("/gettoken", client.FetchTokenCallback(tokenCallback))
+	router.GET("/getsession", client.FetchSessionCallback(sessionCallback))
 	router.POST("/token", idp.ServeToken())
 	router.POST("/user", idp.UpdateUser())
 	return router

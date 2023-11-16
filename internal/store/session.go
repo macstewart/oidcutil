@@ -6,9 +6,11 @@ import (
 )
 
 var (
-	auth          types.AuthParams
-	token         string
-	tokenCallback chan string
+	auth            types.AuthParams
+	token           string
+	tokenCallback   chan string
+	session         string
+	sessionCallback chan string
 )
 
 func LoadAuth() types.AuthParams {
@@ -21,11 +23,21 @@ func SaveAuth(new types.AuthParams) {
 	auth = new
 }
 
-func SetCallback(cb chan string) {
+func SetTokenCallback(cb chan string) {
 	tokenCallback = cb
+}
+
+func SetSessionCallback(cb chan string) {
+	sessionCallback = cb
 }
 
 func SaveToken(input string) {
 	token = input
 	tokenCallback <- token
+}
+
+func SaveSession(input string) {
+	log.Println("save session", input)
+	session = input
+	sessionCallback <- session
 }
