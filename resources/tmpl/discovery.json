@@ -1,5 +1,0 @@
-{
-    "authorization_endpoint": "http://localhost:3333/authorize",
-    "token_endpoint": "http://localhost:3333/token",
-    "jwks_uri": "http://localhost:3333/jwks"
-}

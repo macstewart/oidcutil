@@ -21,7 +21,7 @@ func UpdateUser() gin.HandlerFunc {
 			state = "default"
 		}
 		store.SaveUser(util.BuildCode(state), user)
-		uri := util.BuildRedirect(store.LoadAuth())
+		uri := util.BuildRedirect(store.LoadAuth(), user.Local)
 		log.Printf("redir %s", uri)
 		ctx.Redirect(http.StatusFound, uri)
 	}
