@@ -18,12 +18,12 @@ func Login() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		session := parseSession(ctx)
 		//TODO make this configurable? Can I do it automatically?
-		resp, err := resty.New().R().SetBody(session).Post("http://localhost:8010/api/v0/auth/sso/tokens")
+		resp, err := resty.New().R().SetBody(session).Post("localhost:8010/api/v0/auth/sso/tokens")
 		if err != nil {
 			log.Println("Error fetching token:", err)
 		}
 		if resp.IsError() {
-			log.Println("Error fetching token:", resp.Error())
+			log.Println("Error resp fetching token:", resp)
 		}
 		var token TokenResponse
 		if err := json.Unmarshal(resp.Body(), &token); err != nil {

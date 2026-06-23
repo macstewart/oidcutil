@@ -1,0 +1,19 @@
+version: "3"
+services:
+  ssorry:
+    build: .
+    container_name: ssorry
+    restart: unless-stopped
+    image: ssorry
+    command: 'server --hostname https://${VIRTUAL_HOST}'
+    env_file:
+      - .env
+    networks:
+      - nginx_net
+    ports:
+      - ${VIRTUAL_PORT}:${VIRTUAL_PORT}
+networks:
+  nginx_net:
+    name: nginx_net
+    external: true
+

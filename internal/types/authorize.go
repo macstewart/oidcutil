@@ -8,5 +8,5 @@ type AuthParams struct {
 }
 
 func (a AuthParams) Code() string {
-	return "1234567890"
+	return a.State + "code"
 }
